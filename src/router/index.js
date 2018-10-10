@@ -10,13 +10,23 @@ export default new Router({
     {
       path: '/',
       redirect: {
-        name: 'install'
+        name: 'dashboard'
       }
     },
     {
       path: '/install',
       name: 'install',
       component: () => import('@/pages/install/container.vue')
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: () => import('@/pages/login/container.vue')
+    },
+    {
+      path: '/dashboard',
+      name: 'dashboard',
+      component: () => import('@/pages/dashboard/container.vue')
     }
   ]
 })

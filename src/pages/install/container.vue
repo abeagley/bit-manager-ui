@@ -1,5 +1,5 @@
 <template>
-  <el-container>
+  <el-container class="install-container">
     <transition name="fade" mode="out-in">
       <BasicInfo
         v-if="step === 1"
@@ -15,21 +15,30 @@
       <Confirmation
         v-if="step === 3"
         :basic-info="basicInfo"
+        :installing="installing"
         :on-confirmation-submit="onConfirmationSubmit"
         :on-go-back="goBack"
         :repo-info="repoInfo"
+        :sanity-check="sanityCheck"
       />
     </transition>
   </el-container>
 </template>
 
 <script>
+import { mapActions, mapState } from 'vuex'
+
 import BasicInfo from './basic-info/component'
 import Confirmation from './confirmation/component'
 import RepoInfo from './repo-info/component'
 
 export default {
   components: { BasicInfo, Confirmation, RepoInfo },
+
+  computed: mapState({
+    installing: s => s.install.installing,
+    sanityCheck: s => s.install.sanityCheck
+  }),
 
   data () {
     return {
@@ -39,7 +48,23 @@ export default {
     }
   },
 
+  async beforeMount () {
+    const result = await this.loadSanityCheck()
+    if (!result) {
+      this.$notify({
+        type: 'error',
+        title: 'Uh oh!',
+        message: 'Unable to verify sanity check.'
+      })
+    }
+  },
+
   methods: {
+    ...mapActions([
+      'install',
+      'loadSanityCheck'
+    ]),
+
     goBack () {
       this.step = this.step - 1
     },
@@ -49,8 +74,22 @@ export default {
       this.step = 2
     },
 
-    onConfirmationSubmit () {
-      console.log('goooooo')
+    async onConfirmationSubmit () {
+      const result = await this.install({ ...this.basicInfo, ...this.repoInfo })
+      if (!result) {
+        return this.$notify({
+          type: 'error',
+          title: 'Uh oh!',
+          message: 'Unable to install settings.'
+        })
+      }
+
+      this.$notify({
+        type: 'success',
+        title: 'All set!',
+        message: 'You can login now'
+      })
+      this.$router.push({ name: 'login' })
     },
 
     onRepoInfoSubmit (data) {
@@ -62,73 +101,16 @@ export default {
 </script>
 
 <style lang="scss">
+  @import "../../styles/alt-page";
   @import "../../styles/mixins";
 
-  .el-container {
+  .el-container.install-container {
     @include full-container;
     margin: 0;
     padding: 0;
   }
 
-  .el-container {
-    align-items: center;
-    display: flex;
-    justify-content: center;
-  }
-
-  h1, h3 {
-    font-weight: 300;
-    margin: 0;
-    text-align: center;
-  }
-
-  h1 {
-    font-size: 1.8rem;
-  }
-
-  header span {
-    font-weight: 500;
-  }
-
-  .el-card {
-    margin-top: 1.5rem;
-    width: 315px;
-  }
-
-  .el-form-item {
-    margin: 0 0 0.4rem;
-    transition: all 0.2s linear;
-
-    .el-form-item__label {
-      line-height: 1rem;
-      margin: 0;
-      padding: 0.5rem 0;
-    }
-
-    &.is-error {
-      margin: 0 0 1rem;
-    }
-
-    &.is-button {
-      margin: 1.5rem 0 0.4rem;
-
-      .el-button {
-        width: 100%;
-      }
-
-      .el-button+.el-button {
-        margin: 1rem 0 0;
-      }
-    }
-
-    &:first-child {
-      .el-form-item__label {
-        padding-top: 0;
-      }
-    }
-
-    &:last-child {
-      margin-bottom: 0;
-    }
+  .el-container.install-container {
+    @include alt-page;
   }
 </style>

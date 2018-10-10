@@ -18,7 +18,7 @@ export default {
 
       commit('doLoadSettingsSuccess', settings)
 
-      if (settings === {}) {
+      if (settings === {} || settings === null) {
         router.replace({ name: 'install' })
       }
     }
