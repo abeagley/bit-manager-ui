@@ -1,8 +1,11 @@
 {
-  "name": "js-tmpl",
+  "name": "@bit-manager/ui",
+  "description": "The UI for accessing and modifying bit repository information.",
   "license": "GPL-3.0-or-later",
   "version": "0.1.0",
   "private": true,
+  "author": "Aric Beagley <development@bastionweb.io>",
+  "repository": "https://github.com/abeagley/bit-manager-ui",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
