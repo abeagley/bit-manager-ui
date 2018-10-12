@@ -5,6 +5,7 @@ import store from './store'
 
 // Global modules
 import ElementUi from 'element-ui'
+import locale from 'element-ui/lib/locale/lang/en'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 // Global styles
@@ -22,7 +23,7 @@ import { library as svgIcons } from '@fortawesome/fontawesome-svg-core'
 svgIcons.add(faBars, faSearch, faUser)
 
 // Global module setup
-Vue.use(ElementUi)
+Vue.use(ElementUi, { locale })
 
 // Global components
 Vue.component('fa-icon', FontAwesomeIcon)

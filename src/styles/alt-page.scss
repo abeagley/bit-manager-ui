@@ -1,22 +1,4 @@
-@mixin alt-page {
-  align-items: center;
-  display: flex;
-  justify-content: center;
-
-  h1, h3 {
-    font-weight: 300;
-    margin: 0;
-    text-align: center;
-  }
-
-  h1 {
-    font-size: 1.8rem;
-  }
-
-  header span {
-    font-weight: 500;
-  }
-
+@mixin alt-form {
   .el-card {
     margin-top: 1.5rem;
     width: 315px;
@@ -58,4 +40,26 @@
       margin-bottom: 0;
     }
   }
+}
+
+@mixin alt-page {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+
+  h1, h3 {
+    font-weight: 300;
+    margin: 0;
+    text-align: center;
+  }
+
+  h1 {
+    font-size: 1.8rem;
+  }
+
+  header span {
+    font-weight: 500;
+  }
+
+  @include alt-form;
 }

@@ -7,9 +7,11 @@
     <div class="pure-pusher-container">
       <Header />
       <Navigation />
-      <transition name="fade" mode="out-in">
-        <router-view></router-view>
-      </transition>
+      <div class="padded-content">
+        <transition name="fade" mode="out-in">
+          <router-view></router-view>
+        </transition>
+      </div>
     </div>
     <label class="pure-overlay" for="pure-toggle-right" data-overlay="right"></label>
   </el-container>
@@ -40,5 +42,9 @@ export default {
 
   .pure-pusher-container {
     flex-grow: 1;
+  }
+
+  .padded-content {
+    padding: 1.5rem;
   }
 </style>

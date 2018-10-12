@@ -53,6 +53,11 @@ export default new Router({
           component: () => import('@/pages/repos/container.vue')
         },
         {
+          path: 'repos/create',
+          name: 'repoCreate',
+          component: () => import('@/pages/repo-create/container.vue')
+        },
+        {
           path: 'settings',
           name: 'settings',
           component: () => import('@/pages/settings/container.vue')

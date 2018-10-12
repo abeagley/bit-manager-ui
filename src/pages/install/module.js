@@ -73,7 +73,7 @@ export default {
   state: {
     error: null,
     installing: false,
-    loading: true,
+    loading: false,
     sanityCheck: {}
   }
 }
