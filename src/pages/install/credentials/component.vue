@@ -1,19 +1,22 @@
 <template>
-  <div>
+  <div class="install-creds-container">
     <header>
       <h1>Looking good,</h1>
-      <h3>Now lets setup where the bits will go.</h3>
+      <h3>Now lets setup how you'll talk through the CLI.</h3>
     </header>
     <el-card>
       <div slot="header">
-        <span>Repository Information</span>
+        <span>CLI Credentials</span>
       </div>
-      <el-form :model="repoInfoForm" :rules="rules" label-position="top" ref="formRef">
-        <el-form-item label="Root Bit Path" prop="bitPath">
-          <el-input v-model="repoInfoForm.bitPath" />
-        </el-form-item>
+      <el-form :model="credentialsForm" :rules="rules" label-position="top" ref="formRef">
+        <el-alert
+            title="FYI"
+            description="Bit authentication uses SSH keys. Paste your public SSH key below in order to authenticate with the CLI."
+            type="info"
+            :closable="false">
+        </el-alert>
         <el-form-item label="Public SSH Credentials" prop="credentials">
-          <el-input v-model="repoInfoForm.credentials" type="textarea" rows="5" />
+          <el-input v-model="credentialsForm.credentials" type="textarea" rows="5" />
         </el-form-item>
         <el-form-item class="is-button">
           <el-button type="primary" @click="validateAndSubmit">Next</el-button>
@@ -29,12 +32,12 @@ import validateSSH from '@/helpers/validation/ssh'
 
 export default {
   props: {
-    repoInfo: {
+    credentialsInfo: {
       required: true,
       type: Object
     },
 
-    onRepoInfoSubmit: {
+    onCredentialsSubmit: {
       required: true,
       type: Function
     },
@@ -46,18 +49,14 @@ export default {
   },
 
   data () {
-    const repoInfo = this.repoInfo
-    const infoExists = (repoInfo !== {})
+    const credentialsInfo = this.credentialsInfo
+    const infoExists = (credentialsInfo !== {})
 
     return {
-      repoInfoForm: {
-        bitPath: (infoExists) ? repoInfo.repoPath : '',
-        credentials: (infoExists) ? repoInfo.credentials : ''
+      credentialsForm: {
+        credentials: (infoExists) ? credentialsInfo.credentials : ''
       },
       rules: {
-        bitPath: [
-          { required: true, message: 'Enter a machine path for your bits', trigger: ['blur', 'change', 'submit'] }
-        ],
         credentials: [
           { required: true, message: 'An initial SSH key is required', trigger: ['blur', 'change', 'submit'] },
           { validator: validateSSH, trigger: ['blur', 'change', 'submit'] }
@@ -71,7 +70,7 @@ export default {
       this.$refs.formRef.validate((valid) => {
         if (!valid) { return null }
 
-        this.onRepoInfoSubmit(this.repoInfoForm)
+        this.onCredentialsSubmit(this.credentialsForm)
       })
     }
   }
@@ -79,4 +78,7 @@ export default {
 </script>
 
 <style lang="scss">
+  .install-creds-container .el-alert {
+    margin: 0 0 0.8rem;
+  }
 </style>

@@ -1,17 +1,16 @@
 <template>
   <div class="empty-list">
     <h1>Nothing to see here...</h1>
-    <h3>You haven't created or linked any repo's yet.</h3>
-
-    <el-button type="primary" @click="goToRepoCreate">Create one now?</el-button>
+    <h3>You haven't created or linked any scope's yet.</h3>
+    <el-button type="primary" @click="goToScopeCreate">Create one now?</el-button>
   </div>
 </template>
 
 <script>
 export default {
   methods: {
-    goToRepoCreate () {
-      this.$router.push({ name: 'repoCreate' })
+    goToScopeCreate () {
+      this.$router.push({ name: 'scopeCreate' })
     }
   }
 }
@@ -19,7 +18,9 @@ export default {
 
 <style lang="scss" scoped>
   .empty-list {
+    opacity: 0;
     padding: 1.5rem;
+    text-align: center;
   }
 
   h1, h3 {

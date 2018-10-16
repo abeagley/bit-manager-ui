@@ -4,6 +4,7 @@ export default gql`
   query SanityCheck {
     sanityCheck {
       bitVersion
+      currentUser
       gitVersion
     }
   }  

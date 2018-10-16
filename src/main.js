@@ -7,6 +7,7 @@ import store from './store'
 import ElementUi from 'element-ui'
 import locale from 'element-ui/lib/locale/lang/en'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import VueClipboard from 'vue-clipboard2'
 
 // Global styles
 import 'element-ui/lib/theme-chalk/reset.css'
@@ -15,15 +16,20 @@ import 'element-ui/lib/theme-chalk/index.css'
 // Font awesome
 import {
   faBars,
+  faClone,
+  faDownload,
+  faEye,
+  faHeart,
   faSearch,
   faUser
 } from '@fortawesome/free-solid-svg-icons'
 import { library as svgIcons } from '@fortawesome/fontawesome-svg-core'
 
-svgIcons.add(faBars, faSearch, faUser)
+svgIcons.add(faBars, faClone, faDownload, faEye, faHeart, faSearch, faUser)
 
 // Global module setup
 Vue.use(ElementUi, { locale })
+Vue.use(VueClipboard)
 
 // Global components
 Vue.component('fa-icon', FontAwesomeIcon)

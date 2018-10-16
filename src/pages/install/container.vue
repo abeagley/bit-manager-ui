@@ -1,24 +1,25 @@
 <template>
   <el-container class="install-container">
+    <Loading :loading="loading" />
     <transition name="fade" mode="out-in">
       <BasicInfo
         v-if="step === 1"
         :basic-info="basicInfo"
         :on-basic-info-submit="onBasicInfoSubmit"
       />
-      <RepoInfo
+      <Credentials
         v-if="step === 2"
         :on-go-back="goBack"
-        :on-repo-info-submit="onRepoInfoSubmit"
-        :repo-info="repoInfo"
+        :on-credentials-submit="onCredentialsSubmit"
+        :credentials-info="credentialsInfo"
       />
       <Confirmation
         v-if="step === 3"
         :basic-info="basicInfo"
+        :credentials-info="credentialsInfo"
         :installing="installing"
         :on-confirmation-submit="onConfirmationSubmit"
         :on-go-back="goBack"
-        :repo-info="repoInfo"
         :sanity-check="sanityCheck"
       />
     </transition>
@@ -30,12 +31,14 @@ import { mapActions, mapState } from 'vuex'
 
 import BasicInfo from './basic-info/component'
 import Confirmation from './confirmation/component'
-import RepoInfo from './repo-info/component'
+import Credentials from './credentials/component'
+import Loading from '../../components/loading/component'
 
 export default {
-  components: { BasicInfo, Confirmation, RepoInfo },
+  components: { BasicInfo, Confirmation, Credentials, Loading },
 
   computed: mapState({
+    loading: s => s.install.loading,
     installing: s => s.install.installing,
     sanityCheck: s => s.install.sanityCheck
   }),
@@ -43,7 +46,7 @@ export default {
   data () {
     return {
       basicInfo: {},
-      repoInfo: {},
+      credentialsInfo: {},
       step: 1
     }
   },
@@ -75,7 +78,7 @@ export default {
     },
 
     async onConfirmationSubmit () {
-      const result = await this.install({ ...this.basicInfo, ...this.repoInfo })
+      const result = await this.install({ ...this.basicInfo, ...this.credentialsInfo })
       if (!result) {
         return this.$notify({
           type: 'error',
@@ -92,8 +95,8 @@ export default {
       this.$router.push({ name: 'login' })
     },
 
-    onRepoInfoSubmit (data) {
-      this.repoInfo = data
+    onCredentialsSubmit (data) {
+      this.credentialsInfo = data
       this.step = 3
     }
   }

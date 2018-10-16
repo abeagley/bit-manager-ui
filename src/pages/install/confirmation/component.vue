@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="install-conf-container">
     <header>
       <h1>Ready to rock?</h1>
       <h3>Let's get this party started.</h3>
@@ -9,16 +9,26 @@
         <span>Confirmation</span>
       </div>
       <el-form>
-        <p>
-          We've gotten all the information we need to setup BitManager and get you started. Confirm the information
-          below and start pushing bits.
-        </p>
+        <el-alert
+            v-if="sanityCheck.currentUser === 'root'"
+            title="Installing as root"
+            type="warning"
+            show-icon
+            :closable="false">
+        </el-alert>
+        <el-alert
+            title="FYI"
+            description="We've gotten all the information we need to setup BitManager and get you started. Confirm the information
+          below and start pushing bits."
+            type="info"
+            :closable="false">
+        </el-alert>
         <ul class="confirm-list">
           <li>
-            <el-icon class="el-icon-setting"></el-icon>
+            <el-icon class="el-icon-circle-check-outline"></el-icon>
             <p>
               <span class="descriptor">
-                Bit Version
+                Bit Version:
               </span>
               <span class="description">
                 {{sanityCheck.bitVersion}}
@@ -26,13 +36,24 @@
             </p>
           </li>
           <li>
-            <el-icon class="el-icon-setting"></el-icon>
+            <el-icon class="el-icon-circle-check-outline"></el-icon>
             <p>
               <span class="descriptor">
-                Git Version
+                Git Version:
               </span>
               <span class="description">
                 {{sanityCheck.gitVersion}}
+              </span>
+            </p>
+          </li>
+          <li>
+            <el-icon class="el-icon-circle-check-outline"></el-icon>
+            <p>
+              <span class="descriptor">
+                Bit Server User:
+              </span>
+              <span class="description">
+                {{sanityCheck.currentUser}}
               </span>
             </p>
           </li>
@@ -59,7 +80,7 @@ export default {
       type: Boolean
     },
 
-    repoInfo: {
+    credentialsInfo: {
       required: true,
       type: Object
     },
@@ -88,25 +109,31 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-  .confirm-list {
-    display: block;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    width: 100%;
+<style lang="scss">
+  .install-conf-container {
+    .el-alert {
+      margin: 0 0 0.8rem;
+    }
 
-    li {
-      align-items: center;
-      display: flex;
+    .confirm-list {
+      display: block;
+      list-style: none;
+      margin: 0;
+      padding: 0;
       width: 100%;
 
-      p {
-        .descriptor {
-          font-weight: 500;
-        }
+      li {
+        align-items: center;
+        display: flex;
+        width: 100%;
 
-        margin: 0 0 0 0.8rem;
+        p {
+          .descriptor {
+            font-weight: 500;
+          }
+
+          margin: 0 0 0 0.8rem;
+        }
       }
     }
   }

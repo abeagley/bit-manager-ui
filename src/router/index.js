@@ -48,14 +48,24 @@ export default new Router({
           component: () => import('@/pages/dashboard/container.vue')
         },
         {
-          path: 'repos',
-          name: 'repos',
-          component: () => import('@/pages/repos/container.vue')
+          path: 'scopes',
+          name: 'scopes',
+          component: () => import('@/pages/scopes/container.vue')
         },
         {
-          path: 'repos/create',
-          name: 'repoCreate',
-          component: () => import('@/pages/repo-create/container.vue')
+          path: 'bits',
+          name: 'bits',
+          component: () => import('@/pages/bits/container.vue')
+        },
+        {
+          path: 'scopes/create',
+          name: 'scopeCreate',
+          component: () => import('@/pages/scope-create/container.vue')
+        },
+        {
+          path: 'scopes/:pathName',
+          name: 'scopeShow',
+          component: () => import('@/pages/scope-show/container.vue')
         },
         {
           path: 'settings',

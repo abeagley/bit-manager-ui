@@ -2,8 +2,8 @@
   <el-container class="navigation-container">
     <nav class="main-navigation">
       <router-link :to="{ name: 'dashboard' }">Dashboard</router-link>
-      <router-link :to="{ name: 'repos' }">Repos</router-link>
-      <router-link :to="{ name: 'settings' }">Settings</router-link>
+      <router-link :to="{ name: 'scopes' }">Scopes</router-link>
+      <router-link :to="{ name: 'bits' }">Bits</router-link>
     </nav>
   </el-container>
 </template>
@@ -34,7 +34,7 @@ export default {
       transition: all 0.2s linear;
 
       &.router-link-active {
-        border-bottom: 2px solid #409EFF;
+        border-bottom: 2px solid #C1B3FF;
         color: #409EFF;
       }
     }

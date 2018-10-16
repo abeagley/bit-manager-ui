@@ -1,22 +1,25 @@
 import gql from 'graphql-tag'
 
 export default gql`
-  query BitRepositories(
+  query BitScopes(
     $after: String
     $before: String
     $first: Int
     $skip: Int
-    $where: BitRepositoryWhereInput
+    $where: BitScopeWhereInput
   ) {
-    bitRepositories(
+    bitScopes(
       after: $after
       before: $before
       first: $first
       skip: $skip
       where: $where
     ) {
+      bitCount
+      description
       id
       name
+      pathName
       url
     }
   }

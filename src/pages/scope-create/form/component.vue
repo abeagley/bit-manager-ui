@@ -3,8 +3,11 @@
     <el-form-item label="Name" prop="name">
       <el-input v-model="createForm.name" />
     </el-form-item>
+    <el-form-item label="Description" prop="description">
+      <el-input v-model="createForm.description" type="textarea" rows="3" />
+    </el-form-item>
     <el-form-item label="Local or Remote" prop="isLocal">
-      <el-checkbox v-model="createForm.isLocal" label="Local repo?" border size="medium" />
+      <el-checkbox v-model="createForm.isLocal" label="Local scope?" border size="medium" />
     </el-form-item>
     <transition name="fade" mode="out-in">
       <div v-if="!createForm.isLocal">
@@ -28,7 +31,7 @@ export default {
       type: Boolean
     },
 
-    onRepoCreateSubmit: {
+    onScopeCreateSubmit: {
       required: true,
       type: Function
     }
@@ -37,16 +40,20 @@ export default {
   data () {
     return {
       createForm: {
+        description: '',
         name: '',
-        url: '',
+        url: null,
         isLocal: true
       },
       rules: {
+        description: [
+          { required: true, message: 'A description is required', trigger: ['blur', 'change', 'submit'] }
+        ],
         name: [
-          { required: true, message: 'A repository name is required', trigger: ['blur', 'change', 'submit'] }
+          { required: true, message: 'A scope name is required', trigger: ['blur', 'change', 'submit'] }
         ],
         isLocal: [
-          { required: true, message: 'Is this a remote or local repo?', trigger: ['blur', 'change', 'submit'] }
+          { required: true, message: 'Is this a remote or local scope?', trigger: ['blur', 'change', 'submit'] }
         ],
         url: [
           { validator: this.validateURL, trigger: ['blur', 'change', 'submit'] }
@@ -57,20 +64,20 @@ export default {
 
   methods: {
     cancel () {
-      this.$router.push({ name: 'repos' })
+      this.$router.push({ name: 'scopes' })
     },
 
     validateAndSubmit () {
       this.$refs.formRef.validate((valid) => {
         if (!valid) { return null }
 
-        this.onRepoCreateSubmit(this.createForm)
+        this.onScopeCreateSubmit(this.createForm)
       })
     },
 
     validateURL (prop, value, cb) {
       if (!this.createForm.isLocal && value === '') {
-        return cb(new Error('A URL is required for non-local repos'))
+        return cb(new Error('A URL is required for non-local scopes'))
       }
 
       cb()
