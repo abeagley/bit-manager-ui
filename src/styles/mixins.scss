@@ -4,3 +4,10 @@
   position: relative;
   width: 100%;
 }
+
+@mixin full-container-content {
+  height: calc(100% - 102px);
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}

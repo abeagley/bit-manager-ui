@@ -58,6 +58,11 @@ export default new Router({
           component: () => import('@/pages/bits/container.vue')
         },
         {
+          path: 'bits/:pathName/:box/:name',
+          name: 'bitShow',
+          component: () => import('@/pages/bit-show/container.vue')
+        },
+        {
           path: 'scopes/create',
           name: 'scopeCreate',
           component: () => import('@/pages/scope-create/container.vue')

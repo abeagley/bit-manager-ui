@@ -18,7 +18,6 @@ export default {
 
 <style lang="scss" scoped>
   .empty-list {
-    opacity: 0;
     padding: 1.5rem;
     text-align: center;
   }

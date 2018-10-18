@@ -45,6 +45,8 @@ export default {
   }
 
   .padded-content {
+    box-sizing: border-box;
+    @include full-container-content;
     padding: 1.5rem;
   }
 </style>

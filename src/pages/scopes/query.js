@@ -15,7 +15,6 @@ export default gql`
       skip: $skip
       where: $where
     ) {
-      bitCount
       description
       id
       name

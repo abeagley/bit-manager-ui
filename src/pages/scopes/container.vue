@@ -1,16 +1,18 @@
 <template>
   <el-container class="scopes-list-container">
     <Loading :loading="loading" />
-    <ScopeBar v-if="isReadyWithData" />
+    <ScopeBar v-if="!hasNoScopes" />
     <transition name="fade" mode="out-in">
-      <NoScopes v-if="!isReadyWithData" />
-      <el-row v-else type="flex" justify="center" :gutter="20">
-        <ScopeCard
-            v-for="scope in scopes"
-            :key="scope.id"
-            :scope="scope"
-        />
-      </el-row>
+      <template v-if="!loading">
+        <NoScopes v-if="hasNoScopes" />
+        <el-row v-else type="flex" justify="center" :gutter="20">
+          <ScopeCard
+              v-for="scope in scopes"
+              :key="scope.id"
+              :scope="scope"
+          />
+        </el-row>
+      </template>
     </transition>
   </el-container>
 </template>
@@ -32,8 +34,8 @@ export default {
       scopes: s => s.scopes.data
     }),
 
-    isReadyWithData () {
-      return (!this.loading && this.scopes.length > 0)
+    hasNoScopes () {
+      return (this.loading === false && this.scopes.length === 0)
     }
   },
 

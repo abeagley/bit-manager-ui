@@ -1,8 +1,8 @@
 <template>
-  <el-col :span="8" class="scope-card">
-    <a href="#" class="el-card is-always-shadow" @click.prevent="goToScope">
+  <el-col :span="8" class="bit-card">
+    <a href="#" class="el-card is-always-shadow" @click.prevent="goToBit">
       <header slot="header" >
-        <span>{{scope.name}}</span>
+        <span>{{`${bit.box}/${bit.name}`}} <small>{{bit.version}}</small></span>
         <div class="card-buttons">
           <el-tooltip class="item" effect="dark" content="Import Scope" placement="left">
             <el-button type="text" @click.stop="copyImportString">
@@ -11,8 +11,7 @@
           </el-tooltip>
         </div>
       </header>
-      <div class="scope-card__content">
-        {{scope.description}}
+      <div class="bit-card__content">
         <div class="info-bar">
           <p><fa-icon icon="heart" /> 0</p>
           <p><fa-icon icon="download" /> 0</p>
@@ -25,6 +24,11 @@
 <script>
 export default {
   props: {
+    bit: {
+      required: true,
+      type: Object
+    },
+
     scope: {
       required: true,
       type: Object
@@ -34,7 +38,7 @@ export default {
   methods: {
     async copyImportString () {
       try {
-        await this.$copyText(`bit remote add ssh://bit@localhost:2222:/scopes/${this.scope.pathName}`)
+        await this.$copyText(`bit import ${this.scope.pathName} ${this.bit.box}/${this.bit.name}`)
         this.$notify({
           type: 'success',
           title: 'Copied!',
@@ -49,15 +53,22 @@ export default {
       }
     },
 
-    goToScope () {
-      this.$router.push({ name: 'scopeShow', params: { pathName: this.scope.pathName } })
+    goToBit () {
+      this.$router.push({
+        name: 'bitShow',
+        params: {
+          pathName: this.scope.pathName,
+          box: this.bit.box,
+          name: this.bit.name
+        }
+      })
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-  .el-col.scope-card {
+  .el-col.bit-card {
     .el-card {
       display: block;
 
@@ -65,7 +76,7 @@ export default {
         color: inherit;
       }
 
-      .scope-card__content {
+      .bit-card__content {
         padding: 1.2rem;
 
         .info-bar {
@@ -91,6 +102,11 @@ export default {
 
         span {
           font-weight: 500;
+
+          small {
+            color: rgba(0, 0, 0, 0.4);
+            font-weight: 500;
+          }
         }
 
         .el-button {
